@@ -1,7 +1,14 @@
-from django import forms
-from .models import Task
+from django.db import models
+from django.contrib.auth.models import User
 
-class TaskForm(forms.ModelForm):
-    class Meta:
-        model = Task
-        fields = ['title', 'description', 'important']
+class Task(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(max_length=1000)
+    important = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    datecompleted = models.DateTimeField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
