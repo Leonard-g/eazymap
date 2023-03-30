@@ -35,8 +35,12 @@ def signup(request):
 
 @login_required
 def tasks(request):
-    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
-    return render(request, 'tasks.html', {"tasks": tasks})
+    search_query = request.GET.get('search', '')
+    if search_query:
+        tasks = Task.objects.filter(user=request.user, title__icontains=search_query)
+    else:
+        tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
+    return render(request, 'tasks.html', {"tasks": tasks, "search_query": search_query})
 
 @login_required
 def tasks_completed(request):

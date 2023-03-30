@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="/">Navbar</a>
+      <a class="navbar-brand" href="/">GerLay</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -20,24 +20,24 @@
           {% if user.is_authenticated %}
           <li class="nav-item">
             <a href="{% url 'tasks_completed' %}" class="nav-link"
-              >complted tasks</a
+              >Buscar medidor</a
             >
           </li>
           <li class="nav-item">
-            <a href="{% url 'tasks' %}" class="nav-link">Tasks</a>
+            <a href="{% url 'tasks' %}" class="nav-link">Datos guardados</a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'create_task' %}" class="nav-link">Create Task</a>
+            <a href="{% url 'create_task' %}" class="nav-link">Agregar medidor</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
+            <a class="nav-link" href="/logout">Cerrar sesión</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a href="/signin" class="nav-link">Login</a>
+            <a href="/signin" class="nav-link">Iniciar sesión</a>
           </li>
           <li class="nav-item">
-            <a href="/signup" class="nav-link">Register</a>
+            <a href="/signup" class="nav-link">Registrarse</a>
           </li>
           {% endif %}
         </ul>

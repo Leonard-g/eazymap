@@ -2,13 +2,19 @@
 
 {% block content %}
 
-<h1>CReate task</h1>
+<h1>Agregar datos</h1>
 
 {{error}}
 <form action="/create_task/" method="POST">
   {% csrf_token %}
-  {{form}}
-
-  <button>Save</button>
+  <div>
+    {{ form.title.label_tag }}
+    {{ form.title(attrs={'placeholder': 'No. Medidor'}) }}
+  </div>
+  <div>
+    {{ form.description.label_tag }}
+    {{ form.description(attrs={'placeholder': 'Ejemplo: 18.5167, -70.0167'}) }}
+  </div>
+  <button>Guardar</button>
 </form>
 {% endblock %}
