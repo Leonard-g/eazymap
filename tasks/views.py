@@ -42,30 +42,28 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == "GET":
-        # Si el método es GET, mostrar el formulario vacío
-        return render(request, 'create_task.html', {"form": TaskForm})
-    else:
-        # Si el método es POST, procesar el formulario enviado
+    if request.method == 'GET':
+        form = TaskForm()
+        context = {'form': form}
+        return render(request, 'create_task.html', context)
+
+    if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            # Si el formulario es válido, crear una nueva tarea
             title = form.cleaned_data['title']
-            # Verificar si el título ya existe en la base de datos
-            if Task.objects.filter(user=request.user, title=title).exists():
-                # Si el título ya existe, mostrar un mensaje de error y volver a mostrar el formulario
-                error = "Ya existe un medidor con este número. Por favor, ingrese un medidor diferente."
-                return render(request, 'create_task.html', {"form": form, "error": error})
-            else:
-                # Si el título no existe, guardar la nueva tarea en la base de datos
-                new_task = form.save(commit=False)
-                new_task.user = request.user
-                new_task.save()
-                return redirect('tasks')
-        else:
-            # Si el formulario no es válido, volver a mostrar el formulario con los errores
-            return render(request, 'create_task.html', {"form": form})
+            if Task.objects.filter(title=title).exists():
+                message = f'El título "{title}" ya existe.'
+                context = {'form': form, 'message': message}
+                return render(request, 'create_task.html', context)
 
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
+
+            return redirect('task_list')
+
+    context = {'form': form}
+    return render(request, 'create_task.html', context)
 
 def home(request):
     return render(request, 'home.html')
