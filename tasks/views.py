@@ -40,24 +40,32 @@ def tasks_completed(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
     return render(request, 'tasks.html', {"tasks": tasks})
 
-
 @login_required
 def create_task(request):
     if request.method == "GET":
-        return render(request, 'create_task.html', {"form": TaskForm()})
+        # Si el método es GET, mostrar el formulario vacío
+        return render(request, 'create_task.html', {"form": TaskForm})
     else:
+        # Si el método es POST, procesar el formulario enviado
         form = TaskForm(request.POST)
         if form.is_valid():
-            title = form.cleaned_data["title"]
-            description = form.cleaned_data["description"]
-            if Task.objects.filter(title=title).exists():
-                error = "A task with that title already exists."
+            # Si el formulario es válido, crear una nueva tarea
+            title = form.cleaned_data['title']
+            # Verificar si el título ya existe en la base de datos
+            if Task.objects.filter(user=request.user, title=title).exists():
+                # Si el título ya existe, mostrar un mensaje de error y volver a mostrar el formulario
+                error = "Ya existe un medidor con este número. Por favor, ingrese un medidor diferente."
                 return render(request, 'create_task.html', {"form": form, "error": error})
-            new_task = Task(title=title, description=description, user=request.user)
-            new_task.save()
-            return redirect('tasks')
+            else:
+                # Si el título no existe, guardar la nueva tarea en la base de datos
+                new_task = form.save(commit=False)
+                new_task.user = request.user
+                new_task.save()
+                return redirect('tasks')
         else:
-            return render(request, 'create_task.html', {"form": form, "errors": form.errors})
+            # Si el formulario no es válido, volver a mostrar el formulario con los errores
+            return render(request, 'create_task.html', {"form": form})
+
 
 def home(request):
     return render(request, 'home.html')
