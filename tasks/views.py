@@ -44,17 +44,20 @@ def tasks_completed(request):
 @login_required
 def create_task(request):
     if request.method == "GET":
-        return render(request, 'create_task.html', {"form": TaskForm})
+        return render(request, 'create_task.html', {"form": TaskForm()})
     else:
-        try:
-            form = TaskForm(request.POST)
-            new_task = form.save(commit=False)
-            new_task.user = request.user
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            description = form.cleaned_data["description"]
+            if Task.objects.filter(title=title).exists():
+                error = "A task with that title already exists."
+                return render(request, 'create_task.html', {"form": form, "error": error})
+            new_task = Task(title=title, description=description, user=request.user)
             new_task.save()
             return redirect('tasks')
-        except ValueError:
-            return render(request, 'create_task.html', {"form": TaskForm, "error": "Error creating task."})
-
+        else:
+            return render(request, 'create_task.html', {"form": form, "errors": form.errors})
 
 def home(request):
     return render(request, 'home.html')
