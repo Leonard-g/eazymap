@@ -65,14 +65,10 @@ def create_task(request):
             task.user = request.user
             task.save()
 
-            return redirect('task_list')
-
-    def home(request):
-        return render(request, 'home.html')
+            return redirect('task_detail', task_id=task.id)
 
     context = {'form': form}
     return render(request, 'create_task.html', context)
-
 
 @login_required
 def signout(request):
