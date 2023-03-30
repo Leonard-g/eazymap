@@ -42,6 +42,7 @@ def tasks(request):
         tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
     return render(request, 'tasks.html', {"tasks": tasks, "search_query": search_query})
 
+
 @login_required
 def tasks_completed(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
@@ -65,10 +66,11 @@ def create_task(request):
             task.user = request.user
             task.save()
 
-            return redirect('task_detail', task_id=task.id)
+            return redirect('task_list')
 
     context = {'form': form}
     return render(request, 'create_task.html', context)
+
 
 @login_required
 def signout(request):
