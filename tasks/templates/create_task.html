@@ -4,6 +4,12 @@
 
 <h1>Agregar datos</h1>
 
+{% if message %}
+<div class="alert alert-danger" role="alert">
+  {{ message }}
+</div>
+{% endif %}
+
 <form action="{% url 'create_task' %}" method="POST">
   {% csrf_token %}
   <div class="form-group">
