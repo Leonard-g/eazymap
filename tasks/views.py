@@ -32,8 +32,19 @@ def signup(request):
 
 @login_required
 def tasks(request):
-    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
-    return render(request, 'tasks.html', {"tasks": tasks})
+    query = request.GET.get('query')
+    if query:
+        tasks = Task.objects.filter(user=request.user, title__icontains=query)
+        if tasks.exists():
+            context = {'tasks': tasks}
+            return render(request, 'tasks.html', context)
+        else:
+            message = f'No se encontró el medidor "{query}", agrégalo.'
+            context = {'message': message}
+            return render(request, 'tasks.html', context)
+    else:
+        context = {}
+        return render(request, 'tasks.html', context)
 
 @login_required
 def tasks_completed(request):
