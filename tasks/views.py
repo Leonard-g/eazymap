@@ -50,17 +50,26 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == "GET":
-        return render(request, 'create_task.html', {"form": TaskForm})
-    else:
-        try:
-            form = TaskForm(request.POST)
-            new_task = form.save(commit=False)
-            new_task.user = request.user
-            new_task.save()
-            return redirect('tasks')
-        except ValueError:
-            return render(request, 'create_task.html', {"form": TaskForm, "error": "Error creating task."})
+    form = TaskForm()
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            if Task.objects.filter(title=title).exists():
+                message = f'El medidor "{title}" ya existe.'
+                context = {'form': form, 'message': message}
+                return render(request, 'create_task.html', context)
+
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
+
+            return redirect('task_list')
+
+    context = {'form': form}
+    return render(request, 'create_task.html', context)
+
 
 
 def home(request):
