@@ -53,17 +53,14 @@ def tasks_completed(request):
 
 @login_required
 def create_task(request):
-    if request.method == 'GET':
-        form = TaskForm()
-        context = {'form': form}
-        return render(request, 'create_task.html', context)
+    form = TaskForm()
 
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
             title = form.cleaned_data['title']
-            if Task.objects.filter(title=title).exists():
-                message = f'El medidor "{title}" ya existe.'
+            if Task.objects.filter(title=title, datecompleted__isnull=True).exists():
+                message = f'El título "{title}" ya existe.'
                 context = {'form': form, 'message': message}
                 return render(request, 'create_task.html', context)
 
@@ -73,8 +70,10 @@ def create_task(request):
 
             return redirect('task_list')
 
-    context = {'form': form}
-    return render(request, 'create_task.html', context)
+    else:  # GET request
+        form = TaskForm()
+        context = {'form': form}
+        return render(request, 'create_task.html', context)
 
 def home(request):
     return render(request, 'home.html')
