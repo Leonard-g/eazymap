@@ -4,9 +4,9 @@
 <h1>Buscar medidor</h1>
 
 <form method="GET" action="{% url 'tasks' %}">
-  <label for="query">Search:</label>
+  <label for="query">Buscar</label>
   <input type="text" id="query" name="query">
-  <button type="submit">Search</button>
+  <button type="submit">Buscar</button>
 </form>
 
 <ul>
@@ -28,7 +28,7 @@
       </li>
     {% endfor %}
   {% else %}
-    <p>No tasks found.</p>
+    <p></p>
   {% endif %}
 </ul>
 
