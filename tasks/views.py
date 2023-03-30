@@ -63,7 +63,7 @@ def create_task(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             if Task.objects.filter(title=title).exists():
-                message = f'El título "{title}" ya existe.'
+                message = f'El medidor "{title}" ya existe.'
                 context = {'form': form, 'message': message}
                 return render(request, 'create_task.html', context)
 
