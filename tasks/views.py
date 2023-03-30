@@ -67,6 +67,9 @@ def create_task(request):
 
             return redirect('task_list')
 
+    def home(request):
+        return render(request, 'home.html')
+
     context = {'form': form}
     return render(request, 'create_task.html', context)
 
