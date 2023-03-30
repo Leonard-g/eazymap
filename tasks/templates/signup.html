@@ -1,13 +1,34 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
-<div class="container">
-  <h1>Signup</h1>
-
-  {{error}}
-
-  <form action="/signup/" method="POST">
-    {% csrf_token %} {{form.as_p}}
-    <button class="btn btn-primary">Signup</button>
-  </form>
-</div>
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header bg-primary text-white">{{ block.super }}</div>
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="username" class="form-label">User:</label>
+                {{ form.username }}
+              </div>
+              <div class="mb-3">
+                <label for="password1" class="form-label">Contraseña:</label>
+                {{ form.password1 }}
+              </div>
+              <div class="mb-3">
+                <label for="password2" class="form-label">Confirmar contraseña: </label>
+                {{ form.password2 }}
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Agregar</button>
+              </div>
+              {{ block.super }}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
