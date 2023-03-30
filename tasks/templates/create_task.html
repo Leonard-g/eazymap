@@ -4,17 +4,21 @@
 
 <h1>Agregar datos</h1>
 
-{{error}}
-<form action="/create_task/" method="POST">
+<form action="{% url 'create_task' %}" method="POST">
   {% csrf_token %}
-  <div>
-    {{ form.title.label_tag }}
-    {{ form.title(attrs={'placeholder': 'No. Medidor'}) }}
+  <div class="form-group">
+    <label for="{{ form.title.id_for_label }}">Medidor:</label>
+    {{ form.title }}
   </div>
-  <div>
-    {{ form.description.label_tag }}
-    {{ form.description(attrs={'placeholder': 'Ejemplo: 18.5167, -70.0167'}) }}
+  <div class="form-group">
+    <label for="{{ form.description.id_for_label }}">Coordenadas:</label>
+    {{ form.description }}
   </div>
-  <button>Guardar</button>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="{{ form.important.id_for_label }}" name="{{ form.important.name }}">
+    <label class="form-check-label" for="{{ form.important.id_for_label }}">Importante</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
+
 {% endblock %}
