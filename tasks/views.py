@@ -6,66 +6,72 @@ from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Task
+
 from .forms import TaskForm
+
+# Create your views here.
+
 
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {"form": UserCreationForm})
     else:
+
         if request.POST["password1"] == request.POST["password2"]:
             try:
-                user = User.objects.create_user(request.POST["username"], password=request.POST["password1"])
+                user = User.objects.create_user(
+                    request.POST["username"], password=request.POST["password1"])
                 user.save()
                 login(request, user)
                 return redirect('tasks')
             except IntegrityError:
                 return render(request, 'signup.html', {"form": UserCreationForm, "error": "Username already exists."})
+
         return render(request, 'signup.html', {"form": UserCreationForm, "error": "Passwords did not match."})
+
 
 @login_required
 def tasks(request):
-    search_query = request.GET.get('search', '')
-    if search_query:
-        tasks = Task.objects.filter(user=request.user, title__icontains=search_query)
-    else:
-        tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
-    return render(request, 'tasks.html', {"tasks": tasks, "search_query": search_query})
+    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
+    return render(request, 'tasks.html', {"tasks": tasks})
 
 @login_required
 def tasks_completed(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
     return render(request, 'tasks.html', {"tasks": tasks})
 
+
 @login_required
 def create_task(request):
-    form = TaskForm()
-    if request.method == 'POST':
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            if Task.objects.filter(title=title).exists():
-                message = f'El medidor "{title}" ya existe.'
-                context = {'form': form, 'message': message}
-                return render(request, 'create_task.html', context)
+    if request.method == "GET":
+        return render(request, 'create_task.html', {"form": TaskForm})
+    else:
+        try:
+            form = TaskForm(request.POST)
+            new_task = form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect('tasks')
+        except ValueError:
+            return render(request, 'create_task.html', {"form": TaskForm, "error": "Error creating task."})
 
-            task = form.save(commit=False)
-            task.user = request.user
-            task.save()
-            return redirect('task_list')
 
-    context = {'form': form}
-    return render(request, 'create_task.html', context)
+def home(request):
+    return render(request, 'home.html')
+
 
 @login_required
 def signout(request):
     logout(request)
     return redirect('home')
 
+
 def signin(request):
     if request.method == 'GET':
         return render(request, 'signin.html', {"form": AuthenticationForm})
     else:
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        user = authenticate(
+            request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
             return render(request, 'signin.html', {"form": AuthenticationForm, "error": "Username or password is incorrect."})
 
