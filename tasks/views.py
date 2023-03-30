@@ -68,7 +68,7 @@ def create_task(request):
             task.user = request.user
             task.save()
 
-            return redirect('task_list')
+            return redirect('tasks')
 
     else:  # GET request
         form = TaskForm()
