@@ -1,12 +1,17 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+
 {% block content %}
 
 <h1>Buscar medidor</h1>
 
 <form method="GET" action="{% url 'tasks' %}">
   <label for="query">Buscar</label>
-  <input type="text" id="query" name="query">
-  <button type="submit">Buscar</button>
+  <div class="input-container">
+    <input type="text" id="query" name="query" placeholder="No. medidor">
+    <button type="submit" class="search-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="18px" height="18px"><path d="M21.707,20.293l-4.2-4.2a8.976,8.976,0,1,0-1.414,1.414l4.2,4.2a1,1,0,1,0,1.414-1.414ZM10,16A6,6,0,1,1,16,10,6.007,6.007,0,0,1,10,16Z"></path></svg>
+    </button>
+  </div>
 </form>
 
 <ul>
@@ -28,8 +33,46 @@
       </li>
     {% endfor %}
   {% else %}
-    <p></p>
+    <p>No tasks found.</p>
   {% endif %}
 </ul>
 
+{% endblock %}
+
+{% block css %}
+  <style>
+    .input-container {
+      display: flex;
+    }
+    
+    input[type="text"] {
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      flex: 1;
+      outline: none;
+    }
+
+    .search-btn {
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      outline: none;
+    }
+
+    svg {
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+
+    .search-btn:hover {
+      background-color: #0069d9;
+      cursor: pointer;
+    }
+  </style>
 {% endblock %}
