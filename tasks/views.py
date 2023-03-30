@@ -71,11 +71,6 @@ def create_task(request):
     return render(request, 'create_task.html', context)
 
 
-
-def home(request):
-    return render(request, 'home.html')
-
-
 @login_required
 def signout(request):
     logout(request)
