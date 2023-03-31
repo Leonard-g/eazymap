@@ -2,43 +2,66 @@
 
 {% block content %}
 
-<h1>Buscar medidor</h1>
+  <h1>Buscar medidor</h1>
 
-<form method="GET" action="{% url 'tasks' %}">
-  <label for="query">Buscar</label>
-  <div class="input-container">
-    <input type="text" id="query" name="query" placeholder="No. medidor">
-    <button type="submit" class="search-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" width="18px" height="18px"><path d="M21.707,20.293l-4.2-4.2a8.976,8.976,0,1,0-1.414,1.414l4.2,4.2a1,1,0,1,0,1.414-1.414ZM10,16A6,6,0,1,1,16,10,6.007,6.007,0,0,1,10,16Z"></path></svg>
-    </button>
-  </div>
-</form>
+  <form method="GET" action="{% url 'tasks' %}">
+    <div class="mb-3">
+      <input type="text" class="form-control text-center" name="query" placeholder="No. medidor">
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+  </form>
 
-<ul class="task-list">
-  {% if tasks %}
-    {% for task in tasks %}
-      <li class="task-item">
-        <a href="{% url 'task_detail' task.id %}" class="task-link">
-          {% if task.important %}
-            <strong>Medidor: {{task.title}}</strong>
-          {% else %} 
-            {{task.title}} 
-          {% endif %}
-          <p>Coordenadas: {{task.description}}</p>
-          {{task.datecompleted|date:'M j Y:i'}}
-          {% if task.description %}
-            <a href="https://www.google.com/maps/place/{{task.description}}" class="map-link">Ver ubicación en Google Maps</a>
-          {% endif %}
-        </a>
-      </li>
-    {% endfor %}
-  {% else %}
-    <p>No se encontraron tareas.</p>
-  {% endif %}
-</ul>
-
+  <ul class="mt-5">
+    {% if tasks %}
+      {% for task in tasks %}
+        <li class="mb-3">
+          <a href="{% url 'task_detail' task.id %}">
+            {% if task.important %}
+              <h3 class="fw-bold mb-1">Medidor: {{task.title}}</h3>
+            {% else %} 
+              <h3 class="mb-1">{{task.title}}</h3>
+            {% endif %}
+            <p class="mb-1">Coordenadas: {{task.description}}</p>
+            <p class="mb-1">{{task.datecompleted|date:'M j Y:i'}}</p>
+            {% if task.description %}
+              <a href="https://www.google.com/maps/place/{{task.description}}" class="text-decoration-none">Ver ubicación en Google Maps</a>
+            {% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    {% else %}
+      <p class="text-center">No se encontraron resultados.</p>
+    {% endif %}
+  </ul>
+  
 {% endblock %}
 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/tasks.css' %}">
+  <style>
+    input[type="text"] {
+      border-radius: 5px;
+      font-size: 20px;
+      padding: 20px;
+    }
+
+    button {
+      border-radius: 5px;
+      font-size: 20px;
+      padding: 10px 20px;
+    }
+
+    li {
+      border-radius: 5px;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    a {
+      color: #007bff;
+    }
+
+    a:hover {
+      color: #0056b3;
+    }
+  </style>
 {% endblock %}
