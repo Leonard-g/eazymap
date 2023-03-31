@@ -11,14 +11,14 @@
   {{form.as_p}}
 
   <button>
-    Update
+    Actualizar
   </button>
 </form>
 
 <form action="{% url 'complete_task' task.id %}" method="POST">
   {% csrf_token %}
   <button>
-    complete
+    
   </button>
 </form>
 
