@@ -14,11 +14,11 @@
   </div>
 </form>
 
-<ul>
+<ul class="task-list">
   {% if tasks %}
     {% for task in tasks %}
-      <li>
-        <a href="{% url 'task_detail' task.id %}">
+      <li class="task-item">
+        <a href="{% url 'task_detail' task.id %}" class="task-link">
           {% if task.important %}
             <strong>Medidor: {{task.title}}</strong>
           {% else %} 
@@ -27,52 +27,18 @@
           <p>Coordenadas: {{task.description}}</p>
           {{task.datecompleted|date:'M j Y:i'}}
           {% if task.description %}
-            <a href="https://www.google.com/maps/place/{{task.description}}">Ver ubicación en Google Maps</a>
+            <a href="https://www.google.com/maps/place/{{task.description}}" class="map-link">Ver ubicación en Google Maps</a>
           {% endif %}
         </a>
       </li>
     {% endfor %}
   {% else %}
-    <p>No tasks found.</p>
+    <p>No se encontraron tareas.</p>
   {% endif %}
 </ul>
 
 {% endblock %}
 
 {% block css %}
-  <style>
-    .input-container {
-      display: flex;
-    }
-    
-    input[type="text"] {
-      border: none;
-      padding: 10px;
-      font-size: 16px;
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
-      flex: 1;
-      outline: none;
-    }
-
-    .search-btn {
-      background-color: #007bff;
-      border: none;
-      color: #fff;
-      padding: 10px 20px;
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-      outline: none;
-    }
-
-    svg {
-      vertical-align: middle;
-      margin-left: 5px;
-    }
-
-    .search-btn:hover {
-      background-color: #0069d9;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/tasks.css' %}">
 {% endblock %}
