@@ -19,7 +19,7 @@
             {% if task.important %}
               <h3 class="fw-bold mb-1">Medidor: {{task.title}}</h3>
             {% else %} 
-              <h3 class="mb-1">{{task.title}}</h3>
+              <h3 class="mb-1">Medidor: {{task.title}}</h3>
             {% endif %}
             <p class="mb-1">Coordenadas: {{task.description}}</p>
             <p class="mb-1">{{task.datecompleted|date:'M j Y:i'}}</p>
@@ -37,6 +37,7 @@
 {% endblock %}
 
 {% block css %}
+  {{ block.super }}
   <style>
     input[type="text"] {
       border-radius: 5px;
