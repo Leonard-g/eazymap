@@ -20,11 +20,10 @@
           {% if user.is_authenticated %}
           <li class="nav-item">
             <a href="{% url 'tasks_completed' %}" class="nav-link"
-              >Buscar medidor</a
-            >
+              >Buscar medidor</a>            
           </li>
           <li class="nav-item">
-            <a href="{% url 'tasks' %}" class="nav-link"></a>
+            <a href="{% url 'tasks' %}" class="nav-link">Datos guardados</a>
           </li>
           <li class="nav-item">
             <a href="{% url 'create_task' %}" class="nav-link">Agregar medidor</a>
