@@ -1,32 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header bg-primary text-white">{{ block.super }}</div>
-          <div class="card-body">
-            <form method="POST">
-              {% csrf_token %}
-              <div class="mb-3">
-                <label for="username" class="form-label">User:</label>
-                {{ form.username }}
-              </div>
-              <div class="mb-3">
-                <label for="password1" class="form-label">Contraseña:</label>
-                {{ form.password1 }}
-              </div>
-              <div class="mb-3">
-                <label for="password2" class="form-label">Confirmar contraseña: </label>
-                {{ form.password2 }}
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary">Agregar</button>
-              </div>
-              {{ block.super }}
-            </form>
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card w-50">
+      <div class="card-header bg-primary text-white"><i class="bi bi-geo-alt"></i> Registrar barrio. {{ block.super }}
+        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="top" title="Información adicional">
+          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#infoModal">
+            <i class="bi bi-exclamation-circle"></i>
+          </button>
+        </span>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="username" class="form-label"><i class="bi bi-person-fill"></i></label>
+            {{ form.username }}
           </div>
+          <div class="mb-3">
+            <label for="password1" class="form-label"><i class="bi bi-lock-fill"></i></label>
+            {{ form.password1 }}
+          </div>
+          <div class="mb-3">
+            <label for="password2" class="form-label"><i class="bi bi-lock-fill"></i></label>
+            {{ form.password2 }}
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="infoModalLabel">Información adicional</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Para registrar un barrio, debes elegir un nombre de usuario y contraseña que usarás para ingresar al sistema.</p>
+          <p>Recuerda que una vez que registres el barrio, podrás agregar la información del medidor y coordenadas en el mismo.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>

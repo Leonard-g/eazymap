@@ -1,68 +1,66 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Buscar medidor</h1>
 
-  <h1>Buscar medidor</h1>
+    <form method="GET" action="{% url 'tasks' %}">
+      <div class="input-group mb-3 mx-auto" style="max-width: 500px;">
+        <input type="text" class="form-control rounded-pill" name="query" placeholder="No. medidor">
+        <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
+      </div>
+    </form>
 
-  <form method="GET" action="{% url 'tasks' %}">
-    <div class="mb-3">
-      <input type="text" class="form-control text-center" name="query" placeholder="No. medidor">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-5">
+      {% if tasks %}
+        {% for task in tasks %}
+          <div class="col">
+            <div class="card h-100 shadow">
+              <div class="card-body">
+                {% if task.important %}
+                  <h5 class="card-title fw-bold">Medidor: {{ task.title }}</h5>
+                {% else %} 
+                  <h5 class="card-title">Medidor: {{ task.title }}</h5>
+                {% endif %}
+                <p class="card-text mb-2">Coordenadas: {{ task.description }}</p>
+                <p class="card-text">{{ task.datecompleted|date:'M j Y:i' }}</p>
+                {% if task.description %}
+                  <a href="https://www.google.com/maps/place/{{ task.description }}" class="card-link text-decoration-none" target="_blank">Ver ubicación en Google Maps</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col">
+          <p class="text-center">No se encontraron resultados.</p>
+        </div>
+      {% endif %}
     </div>
-    <button type="submit" class="btn btn-primary">Buscar</button>
-  </form>
-
-  <ul class="mt-5">
-    {% if tasks %}
-      {% for task in tasks %}
-        <li class="mb-3">
-          <a href="{% url 'task_detail' task.id %}">
-            {% if task.important %}
-              <h3 class="fw-bold mb-1">Medidor: {{task.title}}</h3>
-            {% else %} 
-              <h3 class="mb-1">Medidor: {{task.title}}</h3>
-            {% endif %}
-            <p class="mb-1">Coordenadas: {{task.description}}</p>
-            <p class="mb-1">{{task.datecompleted|date:'M j Y:i'}}</p>
-            {% if task.description %}
-              <a href="https://www.google.com/maps/place/{{task.description}}" class="text-decoration-none">Ver ubicación en Google Maps</a>
-            {% endif %}
-          </a>
-        </li>
-      {% endfor %}
-    {% else %}
-      <p class="text-center">No se encontraron resultados.</p>
-    {% endif %}
-  </ul>
-  
-{% endblock %}
-
-{% block css %}
-  {{ block.super }}
-  <style>
-    input[type="text"] {
-      border-radius: 5px;
-      font-size: 20px;
-      padding: 20px;
+  </div>
+ <style>
+    .form-control {
+      border-radius: 30px;
+      border-color: #dcdde1;
     }
 
-    button {
-      border-radius: 5px;
-      font-size: 20px;
-      padding: 10px 20px;
+    .btn-primary {
+      background-color: #27ae60;
+      border-color: #27ae60;
     }
 
-    li {
-      border-radius: 5px;
-      padding: 20px;
-      background-color: #f0f0f0;
+    .btn-primary:hover {
+      background-color: #219a52;
+      border-color: #219a52;
     }
 
-    a {
-      color: #007bff;
+    .card {
+      border-radius: 10px;
+      border-color: #dcdde1;
     }
 
-    a:hover {
-      color: #0056b3;
+    .card:hover {
+      box-shadow: 0 0 10px #dcdde1;
     }
   </style>
 {% endblock %}

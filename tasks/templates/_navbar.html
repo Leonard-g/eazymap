@@ -1,45 +1,52 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">GerLay</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a href="/" class="nav-link">Home</a>
-          </li>
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a href="{% url 'tasks_completed' %}" class="nav-link"
-              >Buscar medidor</a>            
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'tasks' %}" class="nav-link">Datos guardados</a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'create_task' %}" class="nav-link">Agregar medidor</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Cerrar sesión</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a href="/signin" class="nav-link">Iniciar sesión</a>
-          </li>
-          <li class="nav-item">
-            <a href="/signup" class="nav-link">Registrarse</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
+  <div class="container">
+    <a class="navbar-brand" href="/">GerLay</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a href="/" class="nav-link">
+            <i class="bi bi-house"></i>
+            Home
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a href="{% url 'tasks' %}" class="nav-link">
+            <i class="bi bi-search"></i>
+            Buscar medidor
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'create_task' %}" class="nav-link">
+            <i class="bi bi-plus-circle"></i>
+            Agregar medidor
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">
+            <i class="bi bi-box-arrow-right"></i>
+            Cerrar sesión
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="/signin" class="nav-link">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Iniciar sesión
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/signup" class="nav-link">
+            <i class="bi bi-person-plus"></i>
+            Registrarse
+          </a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
