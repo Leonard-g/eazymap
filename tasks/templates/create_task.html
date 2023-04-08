@@ -12,7 +12,7 @@
       </div>
       {% endif %}
 
-      <div id="map" style="height: 300px;"></div>
+      <div id="map" style="height: 200px;"></div>
 
       <form action="{% url 'create_task' %}" method="POST">
         {% csrf_token %}
@@ -53,8 +53,9 @@
     border-color: #dcdde1;
   }
 </style>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap" async defer>
+  
+</script>
 <script>
   function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
