@@ -12,47 +12,87 @@
       </div>
       {% endif %}
 
+      <div id="map" style="height: 300px;"></div>
+
       <form action="{% url 'create_task' %}" method="POST">
         {% csrf_token %}
         <div class="form-group">
-          <input type="text" name="title" class="form-control" placeholder="No. medidor" pattern="[0-9]*" required>
+          <input type="text" name="title" class="form-control mt-2" placeholder="No. medidor" pattern="[0-9]*" required>
         </div>
         <div class="form-group">
-          <input type="text" name="description" id="coordinates-input" class="form-control" placeholder="Ejemplo: 18.4713216, -69.9203584" pattern="^-?\d+(\.\d+)?, -?\d+(\.\d+)?$">
+          <input type="text" name="description" id="coordinates-input" class="form-control mt-2" placeholder="Ejemplo: 18.4713216, -69.9203584" pattern="^-?\d+(\.\d+)?, -?\d+(\.\d+)?$">
         </div>
         <div class="form-group text-center">
           <button type="button" class="btn btn-primary btn-block mt-2" style="width: 200px; height: 50px; font-size: 16px;" onclick="getCurrentPosition()">Ubicación Actual</button>
         </div>
         <div class="form-group text-center">
-          <button type="submit" class="btn btn-primary rounded-pill" style="width: 200px; height: 50px; font-size: 16px;">Guardar</button>
+          <button type="submit" class="btn btn-primary rounded-pill mt-4" style="width: 200px; height: 50px; font-size: 16px;">Guardar</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-  <style>
-    .btn-primary {
-      background-color: #27ae60;
-      border-color: #27ae60;
-    }
+<style>
+  .btn-primary {
+    background-color: #27ae60;
+    border-color: #27ae60;
+  }
 
-    .btn-primary:hover {
-      background-color: #219a52;
-      border-color: #219a52;
-    }
+  .btn-primary:hover {
+    background-color: #219a52;
+    border-color: #219a52;
+  }
 
-    .form-control {
-      border-radius: 30px;
-      border-color: #dcdde1;
-    }
-  </style>
+  .form-control {
+    border-radius: 30px;
+    border-color: #dcdde1;
+  }
+</style>
 
-  <script>
-    function getCurrentPosition() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          function(position) {
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap" async defer></script>
+<script>
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 16,
+      center: {lat: -34.397, lng: 150.644}
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          title: 'Mi ubicación'
+        });
+
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+  }
+
+  function handleLocationError(browserHasGeolocation, pos) {
+    var infoWindow = new google.maps.InfoWindow({map: map});
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+                          'Error: The Geolocation service failed.' :
+                          'Error: Your browser doesn\'t support geolocation.');
+  }
+
+  function getCurrentPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             document.getElementById("coordinates-input").value = lat + ", " + lon;
