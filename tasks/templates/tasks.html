@@ -7,7 +7,7 @@
     <form method="GET" action="{% url 'tasks' %}">
       <div class="input-group mb-3 mx-auto" style="max-width: 500px;">
         <input type="text" class="form-control rounded-pill" name="query" placeholder="No. medidor">
-        <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
+        <button type="submit" class="btn btn-primary rounded-pill m-1">Buscar</button>
       </div>
     </form>
 
@@ -33,7 +33,7 @@
         {% endfor %}
       {% else %}
         <div class="col">
-          <p class="text-center">No se encontraron resultados.</p>
+          <p class="text-center"></p>
         </div>
       {% endif %}
     </div>
