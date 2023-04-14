@@ -27,6 +27,7 @@
                 {% if task.description %}
                   <a href="https://www.google.com/maps/place/{{ task.description }}" class="card-link text-decoration-none" target="_blank">Ver ubicación en Google Maps</a>
                 {% endif %}
+                <a href="{% url 'task_detail' task.id %}" class="card-link text-decoration-none">Editar</a>
               </div>
             </div>
           </div>
