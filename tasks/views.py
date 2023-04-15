@@ -39,8 +39,8 @@ def tasks(request):
             context = {'tasks': tasks}
             return render(request, 'tasks.html', context)
         else:
-            message = f'No se encontró el medidor "{query}", agrégalo.'
-            context = {'message': message}
+            warning = f'No se encontró el medidor "{query}", agrégalo con su coordenada.'
+            context = {'warning': warning}
             return render(request, 'tasks.html', context)
     else:
         context = {}

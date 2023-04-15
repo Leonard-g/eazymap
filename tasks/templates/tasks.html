@@ -11,6 +11,10 @@
       </div>
     </form>
 
+    {% if warning %}
+      <div class="alert alert-warning" role="alert">{{ warning }}</div>
+    {% endif %}
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-5">
       {% if tasks %}
         {% for task in tasks %}
@@ -33,13 +37,14 @@
           </div>
         {% endfor %}
       {% else %}
-        <div class="col">
-          <p class="text-center">No se encontraron resultados.</p>
-        </div>
+        {% if not warning %}
+
+        {% endif %}
       {% endif %}
     </div>
   </div>
- <style>
+
+  <style>
     .form-control {
       border-radius: 30px;
       border-color: #dcdde1;
