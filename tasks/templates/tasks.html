@@ -25,8 +25,9 @@
                 <p class="card-text mb-2">Coordenadas: {{ task.description }}</p>
                 <p class="card-text">{{ task.datecompleted|date:'M j Y:i' }}</p>
                 {% if task.description %}
-                  <a href="geo:{{ task.description }}">Ver ubicación en Google Maps</a>
+                  <a href="https://www.google.com/maps/place/{{ task.description }}" class="card-link text-decoration-none" target="_blank">Ver ubicación en Google Maps</a>
                 {% endif %}
+                <a href="{% url 'task_detail' task.id %}" class="card-link text-decoration-none">Editar</a>
               </div>
             </div>
           </div>
