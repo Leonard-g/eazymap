@@ -19,5 +19,20 @@
     
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+      $(document).ready(function() {
+        // Al deslizar a la izquierda el card, se muestra el botón de editar
+        $(".card").on("swiperight", function() {
+          $(this).find(".edit-button").show();
+        });
+        // Al deslizar a la derecha el card, se oculta el botón de editar
+        $(".card").on("swipeleft", function() {
+          $(this).find(".edit-button").hide();
+        });
+      });
+    </script>
 </body>
 </html>

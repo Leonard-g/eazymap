@@ -6,7 +6,7 @@
 
     <form method="GET" action="{% url 'tasks' %}">
       <div class="input-group mb-3 mx-auto" style="max-width: 500px;">
-        <input type="text" class="form-control rounded-pill" name="query" placeholder="No. medidor">
+        <input type="text" class="form-control rounded-pill" name="query" placeholder="No. medidor" {% if query %}value="{{ query }}"{% endif %}>
         <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
       </div>
     </form>
@@ -31,14 +31,25 @@
                 {% if task.description %}
                   <a href="https://www.google.com/maps/place/{{ task.description }}" class="card-link text-decoration-none" target="_blank">Ver ubicación en Google Maps</a>
                 {% endif %}
-                <a href="{% url 'task_detail' task.id %}" class="card-link text-decoration-none">Editar</a>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Opciones
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{% url 'task_detail' task.id %}">Editar</a></li>
+                    <li><a class="dropdown-item" href="{% url 'task_detail' task.id %}">Eliminar</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         {% endfor %}
       {% else %}
         {% if not warning %}
-
+          <div class="text-center">
+            <p>No hay medidores registrados</p>
+            <a href="{% url 'task_create' %}" class="btn btn-primary">Agregar medidor</a>
+          </div>
         {% endif %}
       {% endif %}
     </div>
