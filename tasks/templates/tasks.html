@@ -5,14 +5,14 @@
     <h1 class="text-center mb-4">Buscar medidor</h1>
 
     <form method="GET" action="{% url 'tasks' %}">
-      <div class="input-group mb-3 mx-auto" style="max-width: 500px;">
+      <div class="input-group mb-4 mx-auto" style="max-width: 500px;">
         <input type="text" class="form-control rounded-pill" name="query" placeholder="No. medidor" value="{{ query }}">
         <button type="submit" class="btn btn-primary rounded-pill">Buscar</button>
       </div>
     </form>
 
-    {% if message %}
-      <div class="alert alert-warning" role="alert">{{ message }}</div>
+    {% if warning %}
+      <div class="alert alert-warning" role="alert">{{ warning }}</div>
     {% endif %}
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-5">
@@ -20,75 +20,34 @@
         {% for task in tasks %}
           <div class="col">
             <div class="card h-100 shadow">
-              <div class="card-body">
+              <div class="card-body d-flex flex-column align-items-center">
                 {% if task.important %}
-                  <h5 class="card-title fw-bold">Medidor: {{ task.title }}</h5>
+                  <h5 class="card-title fw-bold mb-3">Medidor: {{ task.title }}</h5>
                 {% else %} 
-                  <h5 class="card-title">Medidor: {{ task.title }}</h5>
+                  <h5 class="card-title mb-3">Medidor: {{ task.title }}</h5>
                 {% endif %}
-                <p class="card-text mb-2">Coordenadas: {{ task.description }}</p>
-                <p class="card-text">{{ task.datecompleted|date:'M j Y:i' }}</p>
-                {% if task.description %}
-                <a href="https://www.google.com/maps/place/{{ task.description }}" target="_blank" class="card-link text-decoration-none">
+                <a href="https://www.google.com/maps/place/{{ task.description }}" target="_blank" class="card-link text-decoration-none d-flex flex-column align-items-center">
                   <lord-icon
                     src="https://cdn.lordicon.com/oaflahpk.json"
                     trigger="loop"
                     delay="500"
                     colors="primary:#4bb3fd"
-                    style="width:100px;height:100px">
+                    style="width:80px;height:80px;">
                   </lord-icon>
-                  
-                </a>                
-                {% endif %}
-                <a href="{% url 'task_detail' task.id %}" class="card-link text-decoration-none">
-                  <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-                  <lord-icon
-                    src="https://cdn.lordicon.com/alzqexpi.json"
-                    trigger="hover"
-                    colors="primary:#121331,secondary:#646e78,tertiary:#ffc738,quaternary:#f9c9c0,quinary:#ebe6ef"
-                    style="width:100px;height:100px">
-                  </lord-icon>
+                  <span class="mt-2">Coordenadas: {{ task.description }}</span>
                 </a>
-                
+                <a href="{% url 'task_detail' task.id %}" class="card-link text-decoration-none mt-2">Editar</a>
               </div>
             </div>
-          </div>
-        {% endfor %}
-      {% else %}
-        {% if not message %}
+          </div>      
+          {% endfor %}
+      
+          {% endif %}
 
-        {% endif %}
-      {% endif %}
-    </div>
-  </div>
+    
+        </div>
+      </div>
   
-  <style>
-    .form-control {
-      border-radius: 30px;
-      border-color: #dcdde1;
-    }
-
-    .btn-primary {
-      background-color: #27ae60;
-      border-color: #27ae60;
-    }
-
-    .btn-primary:hover {
-      background-color: #219a52;
-      border-color: #219a52;
-    }
-
-    .card {
-      border-radius: 10px;
-      border-color: #dcdde1;
-    }
-
-    .card:hover {
-      box-shadow: 0 0 10px #dcdde1;
-    }
-  </style>
-
-
   <style>
     .form-control {
       border-radius: 30px;
