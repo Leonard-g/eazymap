@@ -34,7 +34,7 @@ def signup(request):
 def tasks(request):
     query = request.GET.get('query')
     if query:
-        tasks = Task.objects.filter(user=request.user, title__icontains=query)
+        tasks = Task.objects.filter(user=request.user, title=query)
         if tasks.exists():
             context = {'tasks': tasks}
             return render(request, 'tasks.html', context)
@@ -45,6 +45,7 @@ def tasks(request):
     else:
         context = {}
         return render(request, 'tasks.html', context)
+
 
 @login_required
 def tasks_completed(request):
